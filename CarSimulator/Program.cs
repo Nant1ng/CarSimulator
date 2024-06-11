@@ -4,7 +4,9 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.Title = "Car Simulation App";
+            App.Run();
         }
     }
 }
