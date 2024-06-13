@@ -1,8 +1,16 @@
-﻿namespace CarSimulator
+﻿using SimulatorLibrary.Interfaces;
+
+namespace CarSimulator
 {
     public class App
     {
-        public static void Run()
+        private readonly IDriveSim _driveSim;
+        public App(IDriveSim driveSim)
+        {
+            _driveSim = driveSim;
+        }
+
+        public void Run()
         {
             do
             {
@@ -29,7 +37,7 @@
                 switch (key)
                 {
                     case '1':
-                        Console.WriteLine("1");
+                        _driveSim.Print();
                         break;
 
                     case '0':
