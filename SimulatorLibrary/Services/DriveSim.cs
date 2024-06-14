@@ -6,7 +6,7 @@ namespace SimulatorLibrary.Services
     {
         public string Arrow { get; set; } = "↑";
         public int CurrentDirection { get; set; } = 0;
-        public string PickedCommand { get; set; }
+        public string PickedCommand { get; set; } = "";
         public Turn Turn { get; set; }
         public int Fuel { get; set; } = 10;
 
