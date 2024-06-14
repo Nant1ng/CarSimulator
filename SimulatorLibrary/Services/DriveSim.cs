@@ -8,6 +8,7 @@ namespace SimulatorLibrary.Services
         public int CurrentDirection { get; set; } = 0;
         public string PickedCommand { get; set; }
         public Turn Turn { get; set; }
+        public int Fuel { get; set; } = 10;
 
         public void Print()
         {
@@ -26,6 +27,8 @@ namespace SimulatorLibrary.Services
                 Console.WriteLine();
                 Console.WriteLine($"What do you want to do? {PickedCommand}");
                 Console.WriteLine();
+                Console.WriteLine($"{Fuel}");
+                Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine("    N");
                 Console.WriteLine("");
@@ -41,18 +44,22 @@ namespace SimulatorLibrary.Services
                     case '1':
                         PickedCommand = "Going Left";
                         Turn = Turn.Left;
+                        Fuel = Fuel - 1;
                         break;
                     case '2':
                         PickedCommand = "Going Right";
                         Turn = Turn.Right;
+                        Fuel = Fuel - 1;
                         break;
                     case '3':
                         PickedCommand = "Moving Forward";
                         Turn = Turn.None;
+                        Fuel = Fuel - 1;
                         break;
                     case '4':
                         PickedCommand = "Reverse";
                         Turn = Turn.None;
+                        Fuel = Fuel - 1;
                         break;
                     case '5':
                         PickedCommand = "Taking a Break";
@@ -61,6 +68,7 @@ namespace SimulatorLibrary.Services
                     case '6':
                         PickedCommand = "Refueling the Car";
                         Turn = Turn.None;
+                        Fuel = 10;
                         break;
                     case '7':
                         isRunning = false;
@@ -70,29 +78,21 @@ namespace SimulatorLibrary.Services
                         break;
                 }
 
-                if (Turn != Turn.None)
-                    CurrentDirection = CarDirection(Turn, CurrentDirection);
+                ArrowDirection(CurrentDirection);
 
-                switch (CurrentDirection)
+                if (Fuel > 0 && Turn != Turn.None)
                 {
-                    case 0:
-                        Arrow = "↑";
-                        break;
-                    case 1:
-                        Arrow = "→";
-                        break;
-                    case 2:
-                        Arrow = "↓";
-                        break;
-                    case 3:
-                        Arrow = "←";
-                        break;
+                    CurrentDirection = CarDirection(Turn, CurrentDirection);
+                }
+                else
+                {
+                    Fuel = 0;
+                    PickedCommand = "You need to refuel the care befor using it.";
                 }
 
                 Console.Clear();
             };
         }
-
         public int CarDirection(Turn turn, int currentDirection)
         {
             char[] direction = new char[] { 'N', 'E', 'S', 'W' };
@@ -103,6 +103,26 @@ namespace SimulatorLibrary.Services
                 currentDirection = (currentDirection + 1) % direction.Length;
 
             return currentDirection;
+        }
+        public string ArrowDirection(int currentDirection)
+        {
+            switch (currentDirection)
+            {
+                case 0:
+                    Arrow = "↑";
+                    break;
+                case 1:
+                    Arrow = "→";
+                    break;
+                case 2:
+                    Arrow = "↓";
+                    break;
+                case 3:
+                    Arrow = "←";
+                    break;
+            }
+
+            return Arrow;
         }
     }
 }

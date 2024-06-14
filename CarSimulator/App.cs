@@ -41,8 +41,10 @@ namespace CarSimulator
                         break;
 
                     case '0':
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Exiting...");
                         Environment.Exit(0);
+                        Console.ResetColor();
                         break;
 
                     default:
