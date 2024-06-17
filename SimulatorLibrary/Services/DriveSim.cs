@@ -8,6 +8,7 @@ namespace SimulatorLibrary.Services
         public int CurrentDirection { get; set; } = 0;
         public string PickedCommand { get; set; } = "";
         public Turn Turn { get; set; }
+        public int Tired { get; set; } = 15;
         public int Fuel { get; set; } = 10;
         public StatusCode Status { get; set; }
 
@@ -32,7 +33,7 @@ namespace SimulatorLibrary.Services
                 {
                     CurrentDirection = CarDirection(Turn, CurrentDirection);
                     Status = StatusCode.Ok;
-                    ArrowDirection(CurrentDirection);
+                    UpdateArrowDirection(CurrentDirection);
                 }
 
                 Console.Clear();
@@ -64,8 +65,19 @@ namespace SimulatorLibrary.Services
                 Console.ResetColor();
             }
 
+            Console.WriteLine();
             Console.WriteLine($"Fuel: {Fuel}");
-            Console.ForegroundColor = ConsoleColor.Cyan;
+
+            if (TiredWarning(Tired) == StatusCode.Warning)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Warning you need to take a brake");
+                Console.ResetColor();
+            };
+            Console.WriteLine();
+
+
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("    N");
             Console.WriteLine();
             Console.WriteLine($"W   {Arrow}   E");
@@ -84,31 +96,37 @@ namespace SimulatorLibrary.Services
                     PickedCommand = "Going Left";
                     Turn = Turn.Left;
                     Fuel--;
+                    Tired--;
                     break;
                 case '2':
                     PickedCommand = "Going Right";
                     Turn = Turn.Right;
                     Fuel--;
+                    Tired--;
                     break;
                 case '3':
                     PickedCommand = "Moving Forward";
                     Turn = Turn.None;
                     Fuel--;
+                    Tired--;
                     break;
                 case '4':
                     PickedCommand = "Reversing";
                     Turn = Turn.None;
                     Fuel--;
+                    Tired--;
                     break;
                 case '5':
                     PickedCommand = "Taking a Break";
                     Turn = Turn.None;
+                    Tired = 10;
                     break;
                 case '6':
                     PickedCommand = "Refueling the Car";
                     Status = StatusCode.Ok;
                     Turn = Turn.None;
                     Fuel = 10;
+                    Tired--;
                     break;
                 case '7':
                     PickedCommand = "Quitting";
@@ -121,13 +139,28 @@ namespace SimulatorLibrary.Services
             }
         }
 
+        public StatusCode TiredWarning(int tired)
+        {
+            StatusCode status = StatusCode.Ok;
+
+            if (tired <= 0)
+            {
+                PickedCommand = "Time to take a break";
+                status = StatusCode.Warning;
+
+                return status;
+            }
+
+            return status;
+        }
+
         public int CarDirection(Turn turn, int currentDirection)
         {
             currentDirection = (CurrentDirection + (turn == Turn.Left ? -1 : 1) + 4) % 4;
 
             return currentDirection;
         }
-        public string ArrowDirection(int currentDirection)
+        public string UpdateArrowDirection(int currentDirection)
         {
             switch (currentDirection)
             {

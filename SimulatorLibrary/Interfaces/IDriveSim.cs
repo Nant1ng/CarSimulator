@@ -3,6 +3,7 @@
     public enum StatusCode
     {
         Ok,
+        Warning,
         Error
     }
     public enum Turn
