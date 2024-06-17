@@ -12,6 +12,7 @@ namespace SimulatorLibrary.Infrastructure
             var builder = new ContainerBuilder();
 
             builder.RegisterType<DriveSim>().As<IDriveSim>();
+            builder.RegisterType<DriverService>().As<IDriverService>();
 
             return builder.Build();
         }

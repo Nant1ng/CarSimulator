@@ -1,4 +1,5 @@
 ﻿using SimulatorLibrary.Interfaces;
+using SimulatorLibrary.Models;
 
 namespace SimulatorLibrary.Services
 {
@@ -8,15 +9,19 @@ namespace SimulatorLibrary.Services
         public int CurrentDirection { get; set; } = 0;
         public string PickedCommand { get; set; } = "";
         public Turn Turn { get; set; }
-        public int Tired { get; set; } = 15;
+        public int Tired { get; set; } = 18;
         public int Fuel { get; set; } = 10;
         public StatusCode Status { get; set; }
 
-        public void Print()
+        public void Print(Driver driver)
         {
             bool isRunning = true;
             while (isRunning)
             {
+                Console.WriteLine($"Driver: {driver.Title} {driver.Name}.");
+                Console.WriteLine($"Gender: {driver.Gender}.");
+
+                TiredWarning(Tired);
                 DisplayMenu();
                 DisplayStatus(Status);
 
@@ -39,6 +44,7 @@ namespace SimulatorLibrary.Services
                 Console.Clear();
             };
         }
+
         private void DisplayMenu()
         {
             Console.WriteLine(@"
@@ -66,17 +72,36 @@ namespace SimulatorLibrary.Services
             }
 
             Console.WriteLine();
-            Console.WriteLine($"Fuel: {Fuel}");
+
+            if (Fuel > 6)
+                Console.WriteLine($"Fuel: {Fuel}");
+            else if (Fuel <= 6 && Fuel > 3)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Fuel: {Fuel}");
+                Console.ResetColor();
+            }
+            else if (Fuel <= 3)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Fuel: {Fuel}");
+                Console.ResetColor();
+            }
 
             if (TiredWarning(Tired) == StatusCode.Warning)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"Warning you need to take a brake");
+                Console.WriteLine("Warning you need to take a brake");
+                Console.ResetColor();
+            }
+            else if (TiredWarning(Tired) == StatusCode.Error)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("You need to take a brake now!");
                 Console.ResetColor();
             };
+
             Console.WriteLine();
-
-
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("    N");
             Console.WriteLine();
@@ -119,7 +144,7 @@ namespace SimulatorLibrary.Services
                 case '5':
                     PickedCommand = "Taking a Break";
                     Turn = Turn.None;
-                    Tired = 10;
+                    Tired = 18;
                     break;
                 case '6':
                     PickedCommand = "Refueling the Car";
@@ -143,13 +168,10 @@ namespace SimulatorLibrary.Services
         {
             StatusCode status = StatusCode.Ok;
 
-            if (tired <= 0)
-            {
-                PickedCommand = "Time to take a break";
+            if (tired <= 12 && tired >= 6)
                 status = StatusCode.Warning;
-
-                return status;
-            }
+            else if (tired < 6)
+                status = StatusCode.Error;
 
             return status;
         }
@@ -160,6 +182,7 @@ namespace SimulatorLibrary.Services
 
             return currentDirection;
         }
+
         public string UpdateArrowDirection(int currentDirection)
         {
             switch (currentDirection)

@@ -5,12 +5,14 @@ namespace CarSimulator
     public class App
     {
         private readonly IDriveSim _driveSim;
-        public App(IDriveSim driveSim)
+        private readonly IDriverService _driverService;
+        public App(IDriveSim driveSim, IDriverService driverService)
         {
             _driveSim = driveSim;
+            _driverService = driverService;
         }
 
-        public void Run()
+        public async Task Run()
         {
             do
             {
@@ -34,10 +36,12 @@ namespace CarSimulator
                 char key = Console.ReadKey().KeyChar;
                 Console.Clear();
 
+                var driver = await _driverService.GetRandomDriver();
+
                 switch (key)
                 {
                     case '1':
-                        _driveSim.Print();
+                        _driveSim.Print(driver);
                         break;
 
                     case '0':

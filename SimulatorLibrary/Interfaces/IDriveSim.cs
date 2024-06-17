@@ -1,4 +1,6 @@
-﻿namespace SimulatorLibrary.Interfaces
+﻿using SimulatorLibrary.Models;
+
+namespace SimulatorLibrary.Interfaces
 {
     public enum StatusCode
     {
@@ -15,7 +17,7 @@
 
     public interface IDriveSim
     {
-        void Print();
+        void Print(Driver driver);
         int CarDirection(Turn turn, int currentDirection);
     }
 }

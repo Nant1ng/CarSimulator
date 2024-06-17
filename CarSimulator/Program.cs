@@ -5,7 +5,7 @@ namespace CarSimulator
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.Title = "Car Simulation App";
@@ -15,10 +15,12 @@ namespace CarSimulator
 
             using (var scope = container.BeginLifetimeScope())
             {
-                var myService = scope.Resolve<IDriveSim>();
-                var app = new App(myService);
+                var driveSimService = scope.Resolve<IDriveSim>();
+                var driverService = scope.Resolve<IDriverService>();
 
-                app.Run();
+                var app = new App(driveSimService, driverService);
+
+                await app.Run();
             }
         }
     }
