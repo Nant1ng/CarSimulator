@@ -12,11 +12,11 @@ namespace SimulatorLibrary.Services
         public int Tired { get; set; } = 18;
         public int Fuel { get; set; } = 10;
         public StatusCode Status { get; set; }
+        public bool IsRunning { get; set; } = true;
 
         public void Print(Driver driver)
         {
-            bool isRunning = true;
-            while (isRunning)
+            while (IsRunning)
             {
                 Console.WriteLine($"Driver: {driver.Title} {driver.Name}.");
                 Console.WriteLine($"Gender: {driver.Gender}.");
@@ -58,7 +58,7 @@ namespace SimulatorLibrary.Services
             ");
         }
 
-        private StatusCode DisplayStatus(StatusCode status)
+        private void DisplayStatus(StatusCode status)
         {
             Console.WriteLine();
 
@@ -109,8 +109,6 @@ namespace SimulatorLibrary.Services
             Console.WriteLine();
             Console.WriteLine("    S");
             Console.ResetColor();
-
-            return status;
         }
 
         private void ProcessCommand(char command)
@@ -155,6 +153,7 @@ namespace SimulatorLibrary.Services
                     break;
                 case '7':
                     PickedCommand = "Quitting";
+                    IsRunning = false;
                     Turn = Turn.None;
                     break;
                 default:
