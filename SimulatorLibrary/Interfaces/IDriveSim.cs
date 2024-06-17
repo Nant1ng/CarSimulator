@@ -1,10 +1,15 @@
 ﻿namespace SimulatorLibrary.Interfaces
 {
+    public enum StatusCode
+    {
+        Ok,
+        Error
+    }
     public enum Turn
     {
         None,
         Left,
-        Right,
+        Right
     }
 
     public interface IDriveSim
