@@ -9,98 +9,121 @@ namespace SimulatorLibrary.Services
         public string PickedCommand { get; set; } = "";
         public Turn Turn { get; set; }
         public int Fuel { get; set; } = 10;
+        public StatusCode Status { get; set; }
 
         public void Print()
         {
             bool isRunning = true;
             while (isRunning)
             {
-                Console.WriteLine(@"[1] Go Left
+                DisplayMenu();
+                DisplayStatus(Status);
+
+                char command = Console.ReadKey().KeyChar;
+                ProcessCommand(command);
+
+                if (Fuel < 0)
+                {
+                    Fuel = 0;
+                    Status = StatusCode.Error;
+                    PickedCommand = "You need to refuel the care befor using it.";
+                }
+                else if (Fuel >= 0 & Turn != Turn.None)
+                {
+                    CurrentDirection = CarDirection(Turn, CurrentDirection);
+                    Status = StatusCode.Ok;
+                    ArrowDirection(CurrentDirection);
+                }
+
+                Console.Clear();
+            };
+        }
+        private void DisplayMenu()
+        {
+            Console.WriteLine(@"
+[1] Go Left
 [2] Go Right
 [3] Move Forward
 [4] Reverse
 [5] Take a Break
 [6] Refuel the Car
 [7] Quit
-                    ");
-
-                Console.WriteLine();
-                Console.WriteLine($"What do you want to do? {PickedCommand}");
-                Console.WriteLine();
-                Console.WriteLine($"{Fuel}");
-                Console.WriteLine();
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("    N");
-                Console.WriteLine("");
-                Console.WriteLine($"W   {Arrow}   E");
-                Console.WriteLine();
-                Console.WriteLine("    S");
-                Console.ResetColor();
-
-                char command = Console.ReadKey().KeyChar;
-
-                switch (command)
-                {
-                    case '1':
-                        PickedCommand = "Going Left";
-                        Turn = Turn.Left;
-                        Fuel = Fuel - 1;
-                        break;
-                    case '2':
-                        PickedCommand = "Going Right";
-                        Turn = Turn.Right;
-                        Fuel = Fuel - 1;
-                        break;
-                    case '3':
-                        PickedCommand = "Moving Forward";
-                        Turn = Turn.None;
-                        Fuel = Fuel - 1;
-                        break;
-                    case '4':
-                        PickedCommand = "Reverse";
-                        Turn = Turn.None;
-                        Fuel = Fuel - 1;
-                        break;
-                    case '5':
-                        PickedCommand = "Taking a Break";
-                        Turn = Turn.None;
-                        break;
-                    case '6':
-                        PickedCommand = "Refueling the Car";
-                        Turn = Turn.None;
-                        Fuel = 10;
-                        break;
-                    case '7':
-                        isRunning = false;
-                        break;
-                    default:
-                        PickedCommand = "Invalid input!";
-                        break;
-                }
-
-                ArrowDirection(CurrentDirection);
-
-                if (Fuel > 0 && Turn != Turn.None)
-                {
-                    CurrentDirection = CarDirection(Turn, CurrentDirection);
-                }
-                else
-                {
-                    Fuel = 0;
-                    PickedCommand = "You need to refuel the care befor using it.";
-                }
-
-                Console.Clear();
-            };
+            ");
         }
+
+        private StatusCode DisplayStatus(StatusCode status)
+        {
+            Console.WriteLine();
+
+            if (status == StatusCode.Ok)
+                Console.WriteLine($"What do you want to do? {PickedCommand}");
+            else if (status == StatusCode.Error)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(PickedCommand);
+                Console.ResetColor();
+            }
+
+            Console.WriteLine($"Fuel: {Fuel}");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("    N");
+            Console.WriteLine();
+            Console.WriteLine($"W   {Arrow}   E");
+            Console.WriteLine();
+            Console.WriteLine("    S");
+            Console.ResetColor();
+
+            return status;
+        }
+
+        private void ProcessCommand(char command)
+        {
+            switch (command)
+            {
+                case '1':
+                    PickedCommand = "Going Left";
+                    Turn = Turn.Left;
+                    Fuel--;
+                    break;
+                case '2':
+                    PickedCommand = "Going Right";
+                    Turn = Turn.Right;
+                    Fuel--;
+                    break;
+                case '3':
+                    PickedCommand = "Moving Forward";
+                    Turn = Turn.None;
+                    Fuel--;
+                    break;
+                case '4':
+                    PickedCommand = "Reversing";
+                    Turn = Turn.None;
+                    Fuel--;
+                    break;
+                case '5':
+                    PickedCommand = "Taking a Break";
+                    Turn = Turn.None;
+                    break;
+                case '6':
+                    PickedCommand = "Refueling the Car";
+                    Status = StatusCode.Ok;
+                    Turn = Turn.None;
+                    Fuel = 10;
+                    break;
+                case '7':
+                    PickedCommand = "Quitting";
+                    Turn = Turn.None;
+                    break;
+                default:
+                    PickedCommand = "Invalid input!";
+                    Turn = Turn.None;
+                    break;
+            }
+        }
+
         public int CarDirection(Turn turn, int currentDirection)
         {
-            char[] direction = new char[] { 'N', 'E', 'S', 'W' };
-
-            if (turn == Turn.Left)
-                currentDirection = (currentDirection - 1 + direction.Length) % direction.Length;
-            else if (turn == Turn.Right)
-                currentDirection = (currentDirection + 1) % direction.Length;
+            currentDirection = (CurrentDirection + (turn == Turn.Left ? -1 : 1) + 4) % 4;
 
             return currentDirection;
         }
