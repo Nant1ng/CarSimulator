@@ -16,12 +16,13 @@ namespace SimulatorLibrary.Services
 
         public void Print(Driver driver)
         {
+            IsRunning = true;
             while (IsRunning)
             {
-                Console.WriteLine($"Driver: {driver.Title} {driver.Name}.");
+                Console.WriteLine($"Driver: {driver.Title} Klak Rikkardson.");
                 Console.WriteLine($"Gender: {driver.Gender}.");
 
-                TiredWarning(Tired);
+                EvaluateTirednessLevel(Tired);
                 DisplayMenu();
                 DisplayStatus(Status);
 
@@ -88,13 +89,13 @@ namespace SimulatorLibrary.Services
                 Console.ResetColor();
             }
 
-            if (TiredWarning(Tired) == StatusCode.Warning)
+            if (EvaluateTirednessLevel(Tired) == StatusCode.Warning)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Warning you need to take a brake");
                 Console.ResetColor();
             }
-            else if (TiredWarning(Tired) == StatusCode.Error)
+            else if (EvaluateTirednessLevel(Tired) == StatusCode.Error)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("You need to take a brake now!");
@@ -163,7 +164,7 @@ namespace SimulatorLibrary.Services
             }
         }
 
-        public StatusCode TiredWarning(int tired)
+        public StatusCode EvaluateTirednessLevel(int tired)
         {
             StatusCode status = StatusCode.Ok;
 
