@@ -19,7 +19,7 @@ namespace SimulatorLibrary.Services
             IsRunning = true;
             while (IsRunning)
             {
-                Console.WriteLine($"Driver: {driver.Title} Klak Rikkardson.");
+                Console.WriteLine($"Driver: {driver.Title} {driver.Name}.");
                 Console.WriteLine($"Gender: {driver.Gender}.");
 
                 EvaluateTirednessLevel(Tired);
@@ -92,13 +92,13 @@ namespace SimulatorLibrary.Services
             if (EvaluateTirednessLevel(Tired) == StatusCode.Warning)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Warning you need to take a brake");
+                Console.WriteLine("Warning you need to take a break");
                 Console.ResetColor();
             }
             else if (EvaluateTirednessLevel(Tired) == StatusCode.Error)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("You need to take a brake now!");
+                Console.WriteLine("You need to take a break now!");
                 Console.ResetColor();
             };
 
