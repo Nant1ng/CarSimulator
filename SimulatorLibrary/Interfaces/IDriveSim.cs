@@ -18,6 +18,12 @@ namespace SimulatorLibrary.Interfaces
     public interface IDriveSim
     {
         void Print(Driver driver);
+        void DisplayMenu();
+        void DisplayStatus(StatusCode status);
+        void ProcessCommand(char command);
+        StatusCode EvaluateTirednessLevel(int tired);
         int CarDirection(Turn turn, int currentDirection);
+        string UpdateArrowDirection(int currentDirection);
+
     }
 }
