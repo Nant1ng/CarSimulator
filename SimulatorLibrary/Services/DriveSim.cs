@@ -46,7 +46,7 @@ namespace SimulatorLibrary.Services
             };
         }
 
-        private void DisplayMenu()
+        public void DisplayMenu()
         {
             Console.WriteLine(@"
 [1] Go Left
@@ -59,7 +59,7 @@ namespace SimulatorLibrary.Services
             ");
         }
 
-        private void DisplayStatus(StatusCode status)
+        public void DisplayStatus(StatusCode status)
         {
             Console.WriteLine();
 
@@ -112,7 +112,7 @@ namespace SimulatorLibrary.Services
             Console.ResetColor();
         }
 
-        private void ProcessCommand(char command)
+        public void ProcessCommand(char command)
         {
             switch (command)
             {
