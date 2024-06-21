@@ -12,16 +12,17 @@ namespace SimulatorLibrary.Services
         public int Tired { get; set; } = 18;
         public int Fuel { get; set; } = 10;
         public StatusCode Status { get; set; }
+        public bool IsRunning { get; set; } = true;
 
         public void Print(Driver driver)
         {
-            bool isRunning = true;
-            while (isRunning)
+            IsRunning = true;
+            while (IsRunning)
             {
                 Console.WriteLine($"Driver: {driver.Title} {driver.Name}.");
                 Console.WriteLine($"Gender: {driver.Gender}.");
 
-                TiredWarning(Tired);
+                EvaluateTirednessLevel(Tired);
                 DisplayMenu();
                 DisplayStatus(Status);
 
@@ -45,7 +46,7 @@ namespace SimulatorLibrary.Services
             };
         }
 
-        private void DisplayMenu()
+        public void DisplayMenu()
         {
             Console.WriteLine(@"
 [1] Go Left
@@ -58,7 +59,7 @@ namespace SimulatorLibrary.Services
             ");
         }
 
-        private StatusCode DisplayStatus(StatusCode status)
+        public void DisplayStatus(StatusCode status)
         {
             Console.WriteLine();
 
@@ -88,16 +89,16 @@ namespace SimulatorLibrary.Services
                 Console.ResetColor();
             }
 
-            if (TiredWarning(Tired) == StatusCode.Warning)
+            if (EvaluateTirednessLevel(Tired) == StatusCode.Warning)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Warning you need to take a brake");
+                Console.WriteLine("Warning you need to take a break");
                 Console.ResetColor();
             }
-            else if (TiredWarning(Tired) == StatusCode.Error)
+            else if (EvaluateTirednessLevel(Tired) == StatusCode.Error)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("You need to take a brake now!");
+                Console.WriteLine("You need to take a break now!");
                 Console.ResetColor();
             };
 
@@ -109,11 +110,9 @@ namespace SimulatorLibrary.Services
             Console.WriteLine();
             Console.WriteLine("    S");
             Console.ResetColor();
-
-            return status;
         }
 
-        private void ProcessCommand(char command)
+        public void ProcessCommand(char command)
         {
             switch (command)
             {
@@ -155,6 +154,7 @@ namespace SimulatorLibrary.Services
                     break;
                 case '7':
                     PickedCommand = "Quitting";
+                    IsRunning = false;
                     Turn = Turn.None;
                     break;
                 default:
@@ -164,7 +164,7 @@ namespace SimulatorLibrary.Services
             }
         }
 
-        public StatusCode TiredWarning(int tired)
+        public StatusCode EvaluateTirednessLevel(int tired)
         {
             StatusCode status = StatusCode.Ok;
 

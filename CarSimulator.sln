@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSimulator", "CarSimulator\CarSimulator.csproj", "{CABF4F36-B798-4FA1-8219-1CBC4DC07DC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarSimulator", "CarSimulator\CarSimulator.csproj", "{CABF4F36-B798-4FA1-8219-1CBC4DC07DC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimulatorLibrary", "SimulatorLibrary\SimulatorLibrary.csproj", "{EDAB3559-C1CD-4E1D-9086-0085314EF44F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimulatorLibrary", "SimulatorLibrary\SimulatorLibrary.csproj", "{EDAB3559-C1CD-4E1D-9086-0085314EF44F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarSimulator.Test", "CarSimulator.Test\CarSimulator.Test.csproj", "{03E38E86-F5B5-4A90-9DCD-CA543175CA93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSimulator.NUnitTest", "CarSimulator.NUnitTest\CarSimulator.NUnitTest.csproj", "{42EA763A-9321-42FF-AFA0-5D1FA90457D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{EDAB3559-C1CD-4E1D-9086-0085314EF44F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDAB3559-C1CD-4E1D-9086-0085314EF44F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDAB3559-C1CD-4E1D-9086-0085314EF44F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03E38E86-F5B5-4A90-9DCD-CA543175CA93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03E38E86-F5B5-4A90-9DCD-CA543175CA93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03E38E86-F5B5-4A90-9DCD-CA543175CA93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03E38E86-F5B5-4A90-9DCD-CA543175CA93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42EA763A-9321-42FF-AFA0-5D1FA90457D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42EA763A-9321-42FF-AFA0-5D1FA90457D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42EA763A-9321-42FF-AFA0-5D1FA90457D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42EA763A-9321-42FF-AFA0-5D1FA90457D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
