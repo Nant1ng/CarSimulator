@@ -27,7 +27,7 @@ public void Test_Perform_Action_Increases_Hunger_To_Hungry()
 {
     // Arrange
     _hungerLevel = 4;
-    _mockHunger.Setup(hs => hs.GetHungerStatus(It.IsAny<int>()))
+    _mockHunger.Setup(h => h.GetHungerStatus(It.IsAny<int>()))
         .Returns((int hungerLevel) => hungerLevel <= 5 ? HungerStatus.Full : (hungerLevel <= 10 ? HungerStatus.Hungry : HungerStatus.Starving));
     var expected = HungerStatus.Hungry;
 
