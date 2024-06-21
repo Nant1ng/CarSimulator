@@ -109,7 +109,7 @@ namespace CarSimulator.NUnitTest
         {
             // Arrange
             _hungerLevel = 4;
-            _mockHunger.Setup(hs => hs.GetHungerStatus(It.IsAny<int>()))
+            _mockHunger.Setup(h => h.GetHungerStatus(It.IsAny<int>()))
                 .Returns((int hungerLevel) => hungerLevel <= 5 ? HungerStatus.Full : (hungerLevel <= 10 ? HungerStatus.Hungry : HungerStatus.Starving));
             var expected = HungerStatus.Hungry;
 
@@ -126,7 +126,7 @@ namespace CarSimulator.NUnitTest
         {
             // Arrange
             _hungerLevel = 10;
-            _mockHunger.Setup(hs => hs.GetHungerStatus(It.IsAny<int>()))
+            _mockHunger.Setup(h => h.GetHungerStatus(It.IsAny<int>()))
                 .Returns((int hungerLevel) => hungerLevel <= 5 ? HungerStatus.Full : (hungerLevel <= 10 ? HungerStatus.Hungry : HungerStatus.Starving));
             var expected = HungerStatus.Starving;
 
@@ -143,7 +143,7 @@ namespace CarSimulator.NUnitTest
         {
             // Arrange
             _hungerLevel = 15;
-            _mockHunger.Setup(hs => hs.GetHungerStatus(It.IsAny<int>()))
+            _mockHunger.Setup(h => h.GetHungerStatus(It.IsAny<int>()))
                 .Returns((int hungerLevel) => hungerLevel <= 5 ? HungerStatus.Full : (hungerLevel <= 10 ? HungerStatus.Hungry : HungerStatus.Starving));
             var expected = HungerStatus.Full;
 
@@ -160,7 +160,7 @@ namespace CarSimulator.NUnitTest
         {
             // Arrange
             _hungerLevel = 16;
-            _mockHunger.Setup(hs => hs.GetHungerStatus(It.IsAny<int>()))
+            _mockHunger.Setup(h => h.GetHungerStatus(It.IsAny<int>()))
                 .Returns((int hungerLevel) => hungerLevel <= 5 ? HungerStatus.Full : (hungerLevel <= 10 ? HungerStatus.Hungry : HungerStatus.Starving));
 
             // Act
